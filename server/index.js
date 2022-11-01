@@ -17,7 +17,7 @@ app.use(cors(corsOptions));
 
 app.use(bodyParser.json());
 
-const db = require('./Model')
+const db = require('./Model/Model')
 db.sequelize.sync();
 
 application.use(bodyParser.urlencoded({ extended: true }))
