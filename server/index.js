@@ -1,15 +1,14 @@
 // Import express
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const { application } = require('express');
+const express = require("express");
+const bodyParser = require("body-parser");
+const cors = require("cors");
+const { application } = require("express");
 
 // Initializing our express app
 const app = express();
 
-
 var corsOptions = {
-    origin: "http://localhost:4000"
+  origin: "http://localhost:4000",
 };
 
 // Parse requests of content-type "application/json"
@@ -17,7 +16,7 @@ app.use(cors(corsOptions));
 
 app.use(bodyParser.json());
 
-const db = require('./Model/Model')
+const db = require("./Model");
 const Role = db.role;
 db.sequelize.sync();
 
@@ -34,27 +33,24 @@ db.sequelize.sync();
 //         name: "mod",
 //     })
 
-
 //     Role.create({
 //         id: 3,
 //         name: "admin",
 //     })
 // }
 
-
-application.use(bodyParser.urlencoded({ extended: true }))
+application.use(bodyParser.urlencoded({ extended: true }));
 
 // Route
-app.get('/', (req, res) => {
-    res.json({ message: 'we are up!' })
-})
+// app.get('/', (req, res) => {
+//     res.json({ message: 'we are up!' })
+// })
 
+require("./Routes/authRoutes");
+require("./Routes/userRoutes");
 
 // Assign a port number, where it would run
 const PORT = process.env.PORT || 5000;
 
 // Listen on the port
 app.listen(PORT, () => console.log(`Our Server is running on port ${PORT}`));
-
-
-
