@@ -19,28 +19,27 @@ app.use(bodyParser.json());
 
 const db = require('./Model/Model')
 const Role = db.role;
-db.sequelize.sync({ force: true }).then(() => {
-    console.log('Drop and Resync Db');
-    initial();
-});
+db.sequelize.sync();
 
-function initial() {
-    Role.create({
-        id: 1,
-        name: "user",
-    })
+// Use only when creating new ones
 
-    Role.create({
-        id: 2,
-        name: "mod",
-    })
+// function initial() {
+//     Role.create({
+//         id: 1,
+//         name: "user",
+//     })
+
+//     Role.create({
+//         id: 2,
+//         name: "mod",
+//     })
 
 
-    Role.create({
-        id: 3,
-        name: "admin",
-    })
-}
+//     Role.create({
+//         id: 3,
+//         name: "admin",
+//     })
+// }
 
 
 application.use(bodyParser.urlencoded({ extended: true }))
