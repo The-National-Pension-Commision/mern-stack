@@ -1,5 +1,7 @@
 exports.allAccess = (req, res) => {
-  res.status(200).send("Public Content.");
+  res
+    .status(200)
+    .send("This is for viewers. Authorized and Authorized persons can see");
 };
 
 exports.userBoard = (req, res) => {
