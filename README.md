@@ -24,7 +24,7 @@ to ensure that the server is currently running.
 ## Setting up an Express Server
 
 1. Create a folder name. You can call it anything. But usually sticky with backend or server.
-2. Run npm init. To create your package.json, or ```npm init -y`` to say yes to all.
+2. Run npm init. To create your package.json, or ```npm init -y``` to say yes to all.
 3. Input the data you are asked for each, if you do not use the ```-y``` option.
 4. Run ```npm install express express router``` to install the Express web framework.
 5. Create a server.js or index.js file, and include the entry point in your package.json.
