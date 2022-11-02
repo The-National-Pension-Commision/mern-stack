@@ -1,56 +1,56 @@
-// Import express
 const express = require("express");
-const bodyParser = require("body-parser");
 const cors = require("cors");
-const { application } = require("express");
 
-// Initializing our express app
 const app = express();
 
 var corsOptions = {
-  origin: "http://localhost:4000",
+  origin: "http://localhost:8081",
 };
 
-// Parse requests of content-type "application/json"
 app.use(cors(corsOptions));
 
-app.use(bodyParser.json());
+// parse requests of content-type - application/json
+app.use(express.json());
 
-const db = require("./Model");
+// parse requests of content-type - application/x-www-form-urlencoded
+app.use(express.urlencoded({ extended: true }));
+
+// database
+const db = require("../server/models");
 const Role = db.role;
+
 db.sequelize.sync();
+// force: true will drop the table if it already exists
+// db.sequelize.sync({force: true}).then(() => {
+//   console.log('Drop and Resync Database with { force: true }');
+//   initial();
+// });
 
-// Use only when creating new ones
+// simple route
 
-// function initial() {
-//     Role.create({
-//         id: 1,
-//         name: "user",
-//     })
+// routes
+require("./Routes/auth.routes")(app);
+require("./Routes/user.routes")(app);
 
-//     Role.create({
-//         id: 2,
-//         name: "mod",
-//     })
+// set port, listen for requests
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}.`);
+});
 
-//     Role.create({
-//         id: 3,
-//         name: "admin",
-//     })
-// }
+function initial() {
+  Role.create({
+    id: 1,
+    name: "user",
+  });
 
-application.use(bodyParser.urlencoded({ extended: true }));
+  Role.create({
+    id: 2,
+    name: "moderator",
+  });
 
-// Route
-// app.get('/', (req, res) => {
-//     res.json({ message: 'we are up!' })
-// })
-
-require("./Routes/authRoutes");
-require("./Routes/userRoutes");
-
-// Assign a port number, where it would run
-const PORT = process.env.PORT || 5000;
-
-// Listen on the port
-app.listen(PORT, () => console.log(`Our Server is running on port ${PORT}`));
+  Role.create({
+    id: 3,
+    name: "admin",
+  });
+}

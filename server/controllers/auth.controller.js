@@ -1,57 +1,56 @@
-const db = require("../Model");
-const config = require("../Config/auth.config");
-
+const db = require("../models");
+const config = require("../config/auth.config");
 const User = db.user;
 const Role = db.role;
 
-const Op = db.sequelize.Op;
+const Op = db.Sequelize.Op;
 
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 
 exports.signup = (req, res) => {
-  // This method creates the user in the db
+  // Save User to Database
   User.create({
     username: req.body.username,
     email: req.body.email,
-    password: bcrypt.hashSync(req.body.password, 9),
+    password: bcrypt.hashSync(req.body.password, 8)
   })
-    .then((user) => {
+    .then(user => {
       if (req.body.roles) {
         Role.findAll({
           where: {
             name: {
-              [Op.or]: req.body.roles,
-            },
-          },
-        }).then((roles) => {
+              [Op.or]: req.body.roles
+            }
+          }
+        }).then(roles => {
           user.setRoles(roles).then(() => {
-            res.send({ message: "user was registered successfully!" });
+            res.send({ message: "User registered successfully!" });
           });
         });
       } else {
-        // User Role = 1
+        // user role = 1
         user.setRoles([1]).then(() => {
-          res.send({ message: "User was registered succesfully" });
+          res.send({ message: "User registered successfully!" });
         });
       }
     })
-    .catch((error) => {
-      res.status(500).send({ message: error.message });
+    .catch(err => {
+      res.status(500).send({ message: err.message });
     });
 };
 
-exports.signin = (res, req) => {
+exports.signin = (req, res) => {
   User.findOne({
     where: {
-      username: req.body.username,
-    },
+      username: req.body.username
+    }
   })
-    .then((user) => {
+    .then(user => {
       if (!user) {
-        return res.status(404).send({ message: "User is not found" });
+        return res.status(404).send({ message: "User Not found." });
       }
-      // check if encrypted password is valid
+
       var passwordIsValid = bcrypt.compareSync(
         req.body.password,
         user.password
@@ -60,16 +59,16 @@ exports.signin = (res, req) => {
       if (!passwordIsValid) {
         return res.status(401).send({
           accessToken: null,
-          message: "Invalid Password",
+          message: "Invalid Password!"
         });
       }
 
       var token = jwt.sign({ id: user.id }, config.secret, {
-        expiresIn: 86400, // it would take 24 hours for access token to expire
+        expiresIn: 86400 // 24 hours
       });
 
       var authorities = [];
-      user.getRoles().then((roles) => {
+      user.getRoles().then(roles => {
         for (let i = 0; i < roles.length; i++) {
           authorities.push("ROLE_" + roles[i].name.toUpperCase());
         }
@@ -78,11 +77,11 @@ exports.signin = (res, req) => {
           username: user.username,
           email: user.email,
           roles: authorities,
-          accessToken: token,
+          accessToken: token
         });
       });
     })
-    .catch((error) => {
-      res.status(500).send({ message: error.message });
+    .catch(err => {
+      res.status(500).send({ message: err.message });
     });
 };
