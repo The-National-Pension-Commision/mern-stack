@@ -13,42 +13,38 @@ Below are the steps that were taken during the development process of the module
 
 ## Set up a MySQL Database Schema
 
-    1. Attempt
-    ```sql
-    mysql -u root -p
-    ```
-    to ensure that the server is currently running.
-    2. Headover to workbench.
-    3. Create a new Database Schema. Call it "pencom-apps" then apply.
+1. Attempt
+```shell
+mysql -u root -p
+```
+to ensure that the server is currently running.
+2. Headover to workbench.
+3. Create a new Database Schema. Call it "pencom-apps" then apply.
 
 ## Setting up an Express Server
 
-    1. Create a folder name. You can call it anything. But usually sticky with backend or server.
-    2. Run npm init. To create your package.json, or ```npm init -y`` to say
-    yes to all.
-    3. Input the data you are asked for each, if you do not use the ```-y``` option.
-    4. Run ```npm install express express router``` to install the Express
-    web framework.
-    5. Create a server.js or index.js file, and include the entry point in your package.json.
-    6. Install Nodemon to watch for changes in the server after updating.
-    7. Set up the port configuration, preferably on ```http://localhost:5000```
-    which we used for this specific application.
-    8. Run npm start
+1. Create a folder name. You can call it anything. But usually sticky with backend or server.
+2. Run npm init. To create your package.json, or ```npm init -y`` to say yes to all.
+3. Input the data you are asked for each, if you do not use the ```-y``` option.
+4. Run ```npm install express express router``` to install the Express web framework.
+5. Create a server.js or index.js file, and include the entry point in your package.json.
+6. Install Nodemon to watch for changes in the server after updating.
+7. Set up the port configuration, preferably on ```http://localhost:5000``` which we used for this specific application.
+8. Run npm start
 
 ## Configuring and Setting up an Express project
 
-    1. Create the following folders:
-        <b>- Config</b>
-                Create a `db.config.js` to store your database configuration.
-        <b>- Middleware</b>
-                Create an `AuthJwt.js` file for JWT authentication, an `index.js` to export, and  `verifySignUp.js`
-        <b>- Routes</b>
-                Create the  `auth.routes.js` and `user.routes.js`
-        <b>- Models</b>
-                Create a `role.model.js` file and 'user.model.js' file and define the schemas.
-        <b>- Controller</b>
-                Create the `auth.controller` and `user.controller` files
-                to handle the apis.
+1. Create the following folders:
+<b>- Config</b>
+Create a `db.config.js` to store your database configuration.
+<b>- Middleware</b>
+Create an `AuthJwt.js` file for JWT authentication, an `index.js` to export, and  `verifySignUp.js`
+<b>- Routes</b>
+Create the  `auth.routes.js` and `user.routes.js`
+<b>- Models</b>
+Create a `role.model.js` file and 'user.model.js' file and define the schemas.
+<b>- Controller</b>
+Create the `auth.controller` and `user.controller` files to handle the apis.
 
 What's important here is your database configuration. It has to differ.
 
@@ -106,7 +102,7 @@ Install jsonwebtoken
 npm install jsonwebtoken
 ```
 
-Set up your `index.js` tthis way:
+Set up your `index.js` this way:
 
 ```javascript
 const express = require("express");
@@ -198,7 +194,7 @@ db.sequelize.sync();
 
 This would prevent the ORM from dropping previous tables and creating new ones again.
 
-3.
+3.  The Cors configuration
 
 ```javascript
 var corsOptions = {
